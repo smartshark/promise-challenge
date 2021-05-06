@@ -31,7 +31,6 @@ The submission consists of two parts. This first part is a short description of 
 - Must be submitted via [HotCRP](LINK_MISSING). 
 - While you are allowed to submit work that you have not originally developed, you are required to correctly attribute this work to the original authors within this paper. Otherwise, your contribution will be rejected due to plagiarism. 
 
-
 These descriptions do not require a description of the data set or any empirical results and should focus only on the description of the model itself. 
 
 The second part is the executable artifact, i.e., the defect prediction model submitted to the challenge.
@@ -43,7 +42,13 @@ The second part is the executable artifact, i.e., the defect prediction model su
 
 The review will be lean and only check the compliance with the submission guidelines. All valid submissions will be accepted.
 
-# Evaluation
+# Training and Evaluation
+
+We will use the last 500 commits of each project for scoring. 
+
+All data that is older than the commit that is predicted my be used for training. This means that only bugs that were reported and fixed prior to the commit that is predicted may be used as bug labels to prevent a time-travel information leak. We therefore recommend to leave a time-gap between the training and test data. Our sample demonstrates how this can be done by using a three month gap before the last 500 commits of a project. 
+
+You may use data from any project, but the time contraint still applies, i.e., you are not allowed to use data from other projects, that was not available at the time of the commit for which you are running the prediction. 
 
 All models will be ranked in three categories:
 - Best overall performance, measured with Matthews Correlation Coefficient.
@@ -52,7 +57,7 @@ All models will be ranked in three categories:
 
 The cost saving potential will be measured assuming that cheap defects are as expensive as quality assurance (e.g., code review) for 1000 Logical Lines of Code (LLOC defined as non-empty, non-comment lines). For expensive defects, we assume that a defect is as expensive as quality assurance for 10,000 LLOC. The costs are computed using Equation 44 of [this article](https://doi.org/10.1109/TSE.2019.2957794) (preprint: https://arxiv.org/abs/1911.04309). 
 
-For all three categories, we will compute the scores for each project of the test data with all submitted models. Addionally, we use three baselines within the challenge:
+Additionally, we use three baselines within the challenge:
 - The simple random forest that is also used as template for submission in Python. 
 - A trivial model that predicts everything as defective. 
 - A trivial model that predicts nothing as defective. 
