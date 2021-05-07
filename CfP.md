@@ -12,15 +12,23 @@ For this challenge, we provide a new and previously unpublished data set for *Fi
 Participants should first familiarize themselves with the challenge.
 - Read the [description of the data](LINK_MISSING).
 - Read the [requirements for the training and prediction](LINK_MISSING). 
-- Check out the [sample of using a Random Forest](LINK_MISSING).
+- Check out the [samples](approaches).
 
-Afterwards, you can start to develop your own model. We suggest to use the sample as template for your model. If you start from scratch, e.g., because you are not using Python, please ensure that you provide a [Docker container that conforms to our requirements](LINK_MISSING).
+Afterwards, you can start to develop your own model. We suggest to use the sample as template for your model. If you start from scratch, e.g., because you are not using Python, please ensure that you provide a [Docker container that conforms to our requirements](LINK_MISSING). You can contact us anytime for help with other language and the ensure conformity prior to the review. 
 
 ## Important Dates
 
-- May 15th: Publication of the Call for Papers and the Challenge
-- July 2nd: Submission Deadline
-- July 16th: Notification of Acceptance
+- June 20th: Submission Deadline
+- July 2nd: Notification of Acceptance
+- July 8th: Camera Ready Version
+
+Submissions due: 6/3
+Bidding period: 5/28 - 6/3
+Reviews assigned: 6/4
+Reviews due: 6/4 - 6/25
+On-line PC discussion period: 6/25 - 6/27 
+Author notification: 6/28
+Camera ready: 7/8
 
 ## Submission
 
@@ -44,9 +52,9 @@ The review will be lean and only check the compliance with the submission guidel
 
 # Training and Evaluation
 
-We will use the last 500 commits of each project for scoring. 
+We drop the last three month of each project and then use the 500 commits before that for scoring. 
 
-All data that is older than the commit that is predicted my be used for training. This means that only bugs that were reported and fixed prior to the commit that is predicted may be used as bug labels to prevent a time-travel information leak. We therefore recommend to leave a time-gap between the training and test data. Our sample demonstrates how this can be done by using a three month gap before the last 500 commits of a project. 
+All data that is older than the commit that is predicted may be used for training. This means that only bugs that were reported and fixed prior to the commit that is predicted may be used as bug labels to prevent a time-travel information leak. We therefore recommend to leave a time-gap between the training and test data. Our sample demonstrates how this can be done by using a three month gap before the last 500 commits of a project. 
 
 You may use data from any project, but the time contraint still applies, i.e., you are not allowed to use data from other projects, that was not available at the time of the commit for which you are running the prediction. 
 
@@ -57,8 +65,8 @@ All models will be ranked in three categories:
 
 The cost saving potential will be measured assuming that cheap defects are as expensive as quality assurance (e.g., code review) for 1000 Logical Lines of Code (LLOC defined as non-empty, non-comment lines). For expensive defects, we assume that a defect is as expensive as quality assurance for 10,000 LLOC. The costs are computed using Equation 44 of [this article](https://doi.org/10.1109/TSE.2019.2957794) (preprint: https://arxiv.org/abs/1911.04309). 
 
-Additionally, we use three baselines within the challenge:
-- The simple random forest that is also used as template for submission in Python. 
+Additionally, we use four baselines within the challenge:
+- The random forest with SMOTE oversampling trained on old commits of the same projects. [You can find the code here](approaches/baseline_rf_wp).
 - A trivial model that predicts everything as defective. 
 - A trivial model that predicts nothing as defective. 
 
