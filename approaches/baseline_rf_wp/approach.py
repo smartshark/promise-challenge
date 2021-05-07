@@ -49,8 +49,6 @@ def approach():
         # we use all available features for our baseline
         X_train = train_df[ALL_FEATURES].values
         X_test = test_df[ALL_FEATURES].values
-        X_train = train_df[JIT_FEATURES].values
-        X_test = test_df[JIT_FEATURES].values
 
         # binary labels are in the column 'is_inducing'
         y_train = train_df['is_inducing']
