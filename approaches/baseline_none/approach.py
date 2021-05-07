@@ -1,7 +1,4 @@
 import sys
-from sklearn.ensemble import RandomForestClassifier
-
-from imblearn.over_sampling import SMOTE
 
 from utils import *
 

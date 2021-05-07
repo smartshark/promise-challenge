@@ -1,7 +1,4 @@
 import sys
-from sklearn.ensemble import RandomForestClassifier
-
-from imblearn.over_sampling import SMOTE
 
 from utils import *
 
@@ -28,7 +25,7 @@ def approach():
 
         y_test = test_df['is_inducing']
         y_pred = y_test.copy().values
-        y_pred.fill(0)   
+        y_pred.fill(1)   
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
