@@ -7,7 +7,7 @@ from utils import *
 
 def approach():
     args = sys.argv
-
+    
     data_path = args[1]
     score_path = args[2]
     approach_name = args[3]
@@ -19,8 +19,8 @@ def approach():
     for project in projects:
         print(project)
 
-        train_df, test_df = prepare_within_project_data(projects[project], drop_months_end=drop_months_end, num_test_commits=num_test_commits)
-
+        train_df, test_df = prepare_all_data(project, projects, drop_months_end=drop_months_end, num_test_commits=num_test_commits)
+        
         #########################################
         # Build Classifier                      #
         # (should be adopted for your approach) #
