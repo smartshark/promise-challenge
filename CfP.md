@@ -1,7 +1,7 @@
 # PROMISE 2021 Defect Prediction Challenge: Call for Papers
 
 
-The International Conference on Predictive Models and Data Analytics in Software Engineering is hosting a defect prediction challenge track. With this challenge, we call upon everyone interested in defect prediction, to submit their favorite models and see how they compare to the competion. This challenge is also well suited for term projects of university students. 
+The International Conference on Predictive Models and Data Analytics in Software Engineering is hosting a defect prediction challenge track. With this challenge, we call upon everyone interested in defect prediction, to submit their favorite models and see how they compare to the competition. This challenge is also well suited for term projects of university students. 
 
 Participants can submit any technique they want: This can be a new and unpublished approach, a previously published approach by the same authors, or even an approach that was suggested by somebody else. 
 
@@ -35,8 +35,8 @@ These descriptions do not require a description of the data set or any empirical
 
 The second part is the executable artifact, i.e., the defect prediction model submitted to the challenge.
 - Must be provided [following our description](requirements.md).
-- Must be inline with the description from the paper. 
-- Must be must be submitted to the challenge repository via a GitHub Pull Request. Hence, you must fork the repository, add your approach in your own branch, and then create a pull request. Please note that the challenge repository uses the permissive Apache 2.0 Licence. Please contact the challenge chairs if this is a problem for your approach (e.g., due to copy-left issues). 
+- Must be in line with the description from the paper. 
+- Must be must be submitted to the challenge repository via a GitHub Pull Request. Hence, you must fork the repository, add your approach in your own branch, and then create a pull request. Please note that the challenge repository uses the permissive Apache 2.0 License. Please contact the challenge chairs if this is a problem for your approach (e.g., due to copy-left issues). 
 
 ## Review Guidelines
 
@@ -46,14 +46,14 @@ The review will be lean and only check the compliance with the submission guidel
 
 We drop the last three month of each project and then use the 500 commits before that for scoring. 
 
-All data that is older than the commit that is predicted may be used for training. This means that only bugs that were reported and fixed prior to the commit that is predicted may be used as bug labels to prevent a time-travel information leak. We therefore recommend to leave a time-gap between the training and test data. Our sample demonstrates how this can be done by using a three month gap before the last 500 commits of a project. 
+All data that is older than the commit that is predicted may be used for training. This means that only bugs that were reported and fixed prior to the commit that is predicted may be used as bug labels to prevent a time-travel information leak. We therefore recommend to leave a time-gap between the training and test data. Our sample demonstrates how this can be done by using a three-month gap before the last 500 commits of a project. 
 
 You may use data from any project, but the time contraint still applies, i.e., you are not allowed to use data from other projects, that was not available at the time of the commit for which you are running the prediction. 
 
 All models will be ranked in three categories:
 - Best overall performance, measured with Matthews Correlation Coefficient.
-- Lowests costs for projects with "cheap" defects. 
-- Lowests costs for projects with "expensive" defects. 
+- Lowest  costs for projects with "cheap" defects. 
+- Lowest  costs for projects with "expensive" defects. 
 
 The cost saving potential will be measured assuming that cheap defects are as expensive as quality assurance (e.g., code review) for 1000 Logical Lines of Code (LLOC defined as non-empty, non-comment lines). For expensive defects, we assume that a defect is as expensive as quality assurance for 10,000 LLOC. The costs are computed using Equation 44 of [this article](https://doi.org/10.1109/TSE.2019.2957794) (preprint: https://arxiv.org/abs/1911.04309). 
 
@@ -63,4 +63,4 @@ Additionally, we use four baselines within the challenge:
 - A trivial model that predicts everything as defective. [You can find the code here](approaches/baseline_all).
 - A trivial model that predicts nothing as defective. [You can find the code here](approaches/baseline_none).
 
-We will use the [autorank](https://github.com/sherbold/autorank) package for the statistical comparison of submission based on bayesian statistics with a significance level of alpha=0.95. All submissions that are practically equivalent or where the difference is inconclusive to the model with the best performance are considered as winners of the challenge. 
+We will use the [autorank](https://github.com/sherbold/autorank) package for the statistical comparison of submission based on Bayesian statistics with a significance level of alpha=0.95. All submissions that are practically equivalent or where the difference is inconclusive to the model with the best performance are considered as winners of the challenge. 
