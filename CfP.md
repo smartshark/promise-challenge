@@ -11,10 +11,10 @@ For this challenge, we provide a new and previously unpublished data set for *Fi
 
 Participants should first familiarize themselves with the challenge.
 - Read the [description of the data](LINK_MISSING).
-- Read the [requirements for the training and prediction](LINK_MISSING). 
+- Read the [requirements for the submissions](requirements.md). 
 - Check out the [baselines as samples](approaches).
 
-Afterwards, you can start to develop your own model. We suggest to use the sample as template for your model. If you start from scratch, e.g., because you are not using Python, please ensure that you provide a [Docker container that conforms to our requirements](LINK_MISSING). You can contact us anytime for help with other language and the ensure conformity prior to the review. 
+Afterwards, you can start to develop your own model. We suggest to use the sample as template for your model. If you start from scratch, e.g., because you are not using Python, please ensure that you provide a [Docker container that conforms to our requirements](requirements.md). You can contact us anytime for help with other languages and to ensure conformity prior to the review. 
 
 ## Important Dates
 
@@ -27,16 +27,16 @@ Afterwards, you can start to develop your own model. We suggest to use the sampl
 The submission consists of two parts. This first part is a short description of the defect prediction model, which will be published in the PROMISE proceedings.
 - Must not be longer than 2 pages + 1 page for references. 
 - Must be written in English.
-- Must be conform to the [ACM Sigsoft conference proceedings template](LINK_MISSING). 
+- Must be conform to the [ACM Sigsoft conference proceedings template](https://www.acm.org/publications/proceedings-template). 
 - Must be submitted via [HotCRP](LINK_MISSING). 
 - While you are allowed to submit work that you have not originally developed, you are required to correctly attribute this work to the original authors within this paper. Otherwise, your contribution will be rejected due to plagiarism. 
 
 These descriptions do not require a description of the data set or any empirical results and should focus only on the description of the model itself. 
 
 The second part is the executable artifact, i.e., the defect prediction model submitted to the challenge.
-- Must be provided as a Docker container [following our description](LINK_MISSING).
+- Must be provided [following our description](requirements.md).
 - Must be inline with the description from the paper. 
-- Must be must be submitted to the [challenge repository via a GitHub Pull Request](LINK_MISSING). Please note that the challenge repository uses the permissive Apache 2.0 Licence. Please contact the challenge chairs if this is a problem for your approach (e.g., due to copy-left issues). 
+- Must be must be submitted to the challenge repository via a GitHub Pull Request. Hence, you must fork the repository, add your approach in your own branch, and then create a pull request. Please note that the challenge repository uses the permissive Apache 2.0 Licence. Please contact the challenge chairs if this is a problem for your approach (e.g., due to copy-left issues). 
 
 ## Review Guidelines
 
