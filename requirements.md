@@ -10,7 +10,8 @@ In order to allow us to run all approaches without problems, we have a couple re
   - The months that are ignored at the end of the test data. Will be `3` for this challenge.
   - The number of commits used for the test data. Will be `250` for this challenge. 
 - All submissions must have a training time for a single test project of less than 12 hours. 
-- All submissions must be able to run with 24 GB memory . We are probably using 32 GB machines to run your approaches, so this is to be save. 
+- Submissions should be designed such that they run with 32 GB memory and may use additional virtual RAM. The virtual RAM will result in a slow down, which should be accounted for. We will try to run the challenge on a very strong machine (several hundred GB memory), but cannot guarantee that approaches with huge memory consumption can be executed by us.
+- If you require dedicated hardware (e.g., GPUs) for training, please contact us before submission so we can ensure that we can adequately execute your approach. 
 
 The submissions must also be packaged in a way that we can easily execute them. Please find the guidance for this below. 
 
