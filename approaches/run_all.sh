@@ -2,7 +2,6 @@
 
 py_approaches="baseline_rf_wp baseline_rf_all baseline_none baseline_all"
 
-# Iterate the string variable using for loop
 for py_approach in $py_approaches; do
     cd $py_approach
     source venv/bin/activate

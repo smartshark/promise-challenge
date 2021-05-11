@@ -14,6 +14,12 @@ def approach():
     drop_months_end = int(args[4])
     num_test_commits = int(args[5])
 
+    #################################################################################
+    # Loop for using all data                                                       #
+    # Load requires at least 17 GB memory                                           #
+    # Required about 75 GB virtual memory total on my machine for the random forest #
+    #################################################################################
+        
     projects = load_all_projects(path=data_path)
 
     for project in projects:
@@ -42,7 +48,7 @@ def approach():
         # PMD_FEATURES
         #
         # please check the documentation to see which features are included in each list
-        # TODO add url
+        # https://github.com/smartshark/promise-challenge/blob/main/dataset.md
         # 
         # we use all available features for our baseline
         X_train = train_df[ALL_FEATURES].values
@@ -56,10 +62,9 @@ def approach():
         RANDOM_SEED = 42
         np.random.seed(RANDOM_SEED)
 
-        # we resample with SMOTE and build a random forest for our baseline
-        X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
+        # we train the RF without resampling with SMOTE due to memory constraints
         rf = RandomForestClassifier()
-        rf.fit(X_res, y_res)
+        rf.fit(X_train, y_train)
         y_pred = rf.predict(X_test)
 
         ######################################################

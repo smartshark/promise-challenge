@@ -16,14 +16,32 @@ def bug_columns(df, label='induces'):
     return jlip
 
 
-def load_project(file_name, path, project_name):
+def load_project(path, project_name):
     """load project from the supplied csv"""
     if not path.endswith('/') and len(path)>0:
         path += '/'
-    df =  pd.read_csv(path+file_name)
+    df =  pd.read_csv(path+project_name+'.csv.gz')
     df['project'] = project_name
     df['committer_date'] = pd.to_datetime(df['committer_date'])
     return df
+
+
+def load_all_projects(path):
+    """loads all projects from a folder"""
+    projects = {}
+    for project_name in list_all_projects(path):
+        projects[project_name] = load_project(path=path, project_name=project_name)
+    return projects
+
+
+def list_all_projects(path):
+    """lists all projects from a folder"""
+    project_names = []
+    for file in os.listdir(path):
+        if not os.path.isfile(os.path.join(path, file)):
+            continue
+        project_names.append(file.split('.')[0])
+    return project_names
 
 
 def last_commits(df, num_commits=500):
@@ -142,17 +160,6 @@ def prepare_all_data(test_project_name, projects, drop_months_end=3, num_test_co
     return train_df, test_df
 
 
-def load_all_projects(path):
-    """loads all projects from a folder"""
-    projects = {}
-    for file in os.listdir(path):
-        if not os.path.isfile(os.path.join(path, file)):
-            continue
-        project_name = file.split('.')[0]
-        projects[project_name] = load_project(file, path=path, project_name=project_name)
-    return projects
-
-
 def lower_bound(test_df, predictions):
     """calculates the lower bound of the cost saving range"""
     bug_matrix_cols = [col for col in test_df.columns if col.startswith('induces__')]
@@ -248,7 +255,7 @@ STATIC_AGGREGATIONS = ['min', 'max', 'avg', 'median', 'sum']
 
 FGJIT_FEATURES = ['comm', 'adev', 'ddev', 'nddev', 'add', 'del', 'own', 'minor', 'sctr', 'nadev', 'ncomm', 'nsctr', 'oexp', 'exp', 'nd', 'entropy', 'la', 'ld', 'lt', 'age', 'nuc', 'cexp', 'sexp', 'rexp', 'fix_bug']
 JIT_FEATURES = ['kamei_ns', 'kamei_nd', 'kamei_nf', 'kamei_entropy', 'kamei_la', 'kamei_ld', 'kamei_lt', 'kamei_fix', 'kamei_fix', 'kamei_ndev', 'kamei_age', 'kamei_nuc', 'kamei_exp', 'kamei_sexp', 'kamei_rexp']
-WD_FEATURES = ['sm_current_WD', 'sm_parent_WD', 'sm_delta_WD', 'sm_system_WD', 'sm_parent_system_WD', 'delta_WD']
+WD_FEATURES = ['sm_current_WD', 'sm_parent_WD', 'sm_delta_WD', 'sm_system_WD', 'sm_parent_system_WD']
 
 PMD_FEATURES = []
 for p in PMD_RULES:

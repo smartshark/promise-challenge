@@ -14,12 +14,16 @@ def approach():
     drop_months_end = int(args[4])
     num_test_commits = int(args[5])
 
-    projects = load_all_projects(path=data_path)
+    ######################################
+    # Loop for within project prediction #
+    # Loads only one project at a time   #
+    ######################################
+    
+    for project_name in list_all_projects(path=data_path):
+        print(project_name)
+        data = load_project(path=data_path, project_name=project_name)
 
-    for project in projects:
-        print(project)
-
-        train_df, test_df = prepare_within_project_data(projects[project], drop_months_end=drop_months_end, num_test_commits=num_test_commits)
+        train_df, test_df = prepare_within_project_data(data, drop_months_end=drop_months_end, num_test_commits=num_test_commits)
 
         #########################################
         # Build Classifier                      #
@@ -42,7 +46,7 @@ def approach():
         # PMD_FEATURES
         #
         # please check the documentation to see which features are included in each list
-        # TODO add url
+        # https://github.com/smartshark/promise-challenge/blob/main/dataset.md
         # 
         # we use all available features for our baseline
         X_train = train_df[ALL_FEATURES].values
@@ -69,7 +73,7 @@ def approach():
 
         scores = score_model(test_df, y_pred)
         print_summary(train_df, test_df, scores)
-        write_scores(score_path, approach_name, project, scores)
+        write_scores(score_path, approach_name, project_name, scores)
 
         
 if __name__ == '__main__':
