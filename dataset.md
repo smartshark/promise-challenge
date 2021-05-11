@@ -1,3 +1,27 @@
+# Data Description
+
+The data we provide is for *file-level just-in-time defect prediction*. This means that we have one instance in our data for every file that was changed within each commit. We describe the data in detail below. 
+
+## Data Source and Tools
+
+The data was extracted from the [SmartSHARK database 2.0](https://smartshark.github.io/dbreleases/) using the tool [Gierlappen](https://github.com/atrautsch/Gierlappen).
+
+## Labels (Training Data)
+
+The labels for the training data were determined such that we marked commits as bug fixing if
+- they contain a link to a Jira issue and
+- the type of the issue is a bug and the [fastText based classification](https://doi.org/10.1007/s10664-020-09885-w) approach with 95% recall confirms this.
+
+We then use git blames to determine the inducing changes for each changed line in a Java file following SZZ. The suspect boundary is based on the newest linked bug issues. Empty lines, comment lines, and lines determined as refactoring by [RefactoringMiner 1.0](https://github.com/tsantalis/RefactoringMiner) are ignored. 
+
+## Label (Test Data)
+
+Follows when we release the test data :)
+
+## Description of the file format
+
+The data is stored as compressed csv files. `pandas` can natively read this. For other CSV readers you probably need to unpack the data first. Below, we describe the columns of the files. You can also find code for loading the data within our samples. The utils.py we provide with the samples also contains constants that we state here, which you can use for filtering the features. 
+
 |Field | Description|
 |------|------------|
 |commit|SHA hash of the commit|
