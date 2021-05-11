@@ -11,4 +11,4 @@
 |current_PMD_\*,parent_PMD_\*,delta_PMD_\*|Number of [PMD](https://pmd.github.io/) warnings for the file, previous and difference between both. Via OpenStaticAnalyzers [PMD](https://raw.githubusercontent.com/sed-inf-u-szeged/OpenStaticAnalyzer/master/OpenStaticAnalyzer/java/doc/usersguide/md/PMDRef.md) integration.|
 |current_METRIC_CODETYPE_AGGREGATION, parent_M*_C*_A*, delta_M*_C*_A*|METRIC includes [Static source code metrics](https://raw.githubusercontent.com/sed-inf-u-szeged/OpenStaticAnalyzer/master/OpenStaticAnalyzer/java/doc/usersguide/md/SourceCodeMetricsRef.md), [clone metrics](https://raw.githubusercontent.com/sed-inf-u-szeged/OpenStaticAnalyzer/master/OpenStaticAnalyzer/java/doc/usersguide/md/CodeDuplicationMetricsRef.md) from [OpenStaticAnalyzer](https://github.com/sed-inf-u-szeged/OpenStaticAnalyzer). CODETYPE includes file,class,method,interface,enum. AGGREGATION includes min,max,sum,avg,median (only for non-file metrics)|
 |inducing_JIRAKEY_\*_\*|Bug matrix, which file change induces bug JIRAKEY.
-It includes the bugfix revision and the bugfix date.|
+The field name includes the bugfix revision and the bugfix date.|
