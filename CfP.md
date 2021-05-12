@@ -21,13 +21,15 @@ Afterwards, you can start to develop your own model. We suggest to use the sampl
 - July 2nd: Notification of Acceptance
 - July 8th: Camera Ready Version
 
+All dates are AoE. 
+
 ## Submission
 
 The submission consists of two parts. This first part is a short description of the defect prediction model, which will be published in the PROMISE proceedings.
 - Must not be longer than 2 pages + 1 page for references. 
 - Must be written in English.
 - Must be conform to the [ACM Sigsoft conference proceedings template](https://www.acm.org/publications/proceedings-template). 
-- Must be submitted via HotCRP. The submission portal will be open soon.
+- Must be submitted via [HotCRP](https://promise-2021-challenge.hotcrp.com/)
 - While you are allowed to submit work that you have not originally developed, you are required to correctly attribute this work to the original authors within this paper. Otherwise, your contribution will be rejected due to plagiarism. 
 
 These descriptions do not require a description of the data set or any empirical results and should focus only on the description of the model itself. 
