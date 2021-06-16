@@ -17,7 +17,7 @@ Afterwards, you can start to develop your own model. We suggest to use the sampl
 
 ## Important Dates
 
-- June 20th: Submission Deadline
+- ~~June 20th~~ June 27th: Submission Deadline
 - July 2nd: Notification of Acceptance
 - July 8th: Camera Ready Version
 
