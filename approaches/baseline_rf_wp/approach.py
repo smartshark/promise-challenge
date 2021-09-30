@@ -54,6 +54,9 @@ def approach():
 
         train_df = train_df.sample(frac=0.2)
 
+        n_rows = train_df.shape[0]
+        n_columns = train_df.shape[1]
+
         X_train = train_df[ALL_FEATURES].values
         X_test = test_df[ALL_FEATURES].values
 
@@ -67,12 +70,11 @@ def approach():
 
         # we resample with SMOTE and build a random forest for our baseline
         X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
-        rf = RandomForestClassifier()
+        rf = RandomForestClassifier(random_state=RANDOM_SEED, oob_score=True, n_estimators=50)
         rf.fit(X_res, y_res)
         y_pred = rf.predict(X_test)
 
-        dump(rf, 'random_forest_max_features150.joblib')
-
+        dump(rf, 'random_forest_n_estimators_50.joblib')
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
