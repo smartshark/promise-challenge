@@ -3,6 +3,8 @@ from sklearn.ensemble import RandomForestClassifier
 
 from imblearn.over_sampling import SMOTE
 
+from joblib import dump
+
 from utils import *
 
 def approach():
@@ -65,6 +67,9 @@ def approach():
         rf = RandomForestClassifier()
         rf.fit(X_res, y_res)
         y_pred = rf.predict(X_test)
+
+        dump(rf, 'random_forest_max_features150.joblib')
+
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
