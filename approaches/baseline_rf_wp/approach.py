@@ -20,7 +20,7 @@ def approach():
     # Loop for within project prediction #
     # Loads only one project at a time   #
     ######################################
-    
+
     for project_name in list_all_projects(path=data_path):
         print(project_name)
         data = load_project(path=data_path, project_name=project_name)
@@ -51,6 +51,9 @@ def approach():
         # https://github.com/smartshark/promise-challenge/blob/main/dataset.md
         # 
         # we use all available features for our baseline
+
+        train_df = train_df.sample(frac=0.2)
+
         X_train = train_df[ALL_FEATURES].values
         X_test = test_df[ALL_FEATURES].values
 
