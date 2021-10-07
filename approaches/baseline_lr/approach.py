@@ -1,5 +1,6 @@
 import sys
 from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import scale
 
 from imblearn.over_sampling import SMOTE
 
@@ -28,6 +29,8 @@ def approach():
         n_rows = train_df.shape[0]
         n_columns = train_df.shape[1]
 
+        # train_df = scale(train_df)
+
         X_train = train_df[ALL_FEATURES].values
         X_test = test_df[ALL_FEATURES].values
 
@@ -39,13 +42,18 @@ def approach():
         RANDOM_SEED = 42
         np.random.seed(RANDOM_SEED)
 
+        # X_train, y_train = scale(X_train), scale(y_train)
+
         # we resample with SMOTE and build a random forest for our baseline
         X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
-        rf = LogisticRegression(random_state=RANDOM_SEED)
+
+        # X_res, y_res = scale(X_res), scale(y_res)
+
+        rf = LogisticRegression(random_state=RANDOM_SEED, C=0.25)
         rf.fit(X_res, y_res)
         y_pred = rf.predict(X_test)
 
-        dump(rf, 'logistic_regression_default.joblib')
+        dump(rf, 'logistic_regression_c_025_2.joblib')
 
         scores = score_model(test_df, y_pred)
         print_summary(train_df, test_df, scores)
