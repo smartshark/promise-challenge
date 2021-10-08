@@ -1,4 +1,6 @@
 import sys
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
 from imblearn.over_sampling import SMOTE
@@ -70,11 +72,11 @@ def approach():
 
         # we resample with SMOTE and build a random forest for our baseline
         X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
-        svm_ = SVC()
+        svm_ = make_pipeline(StandardScaler(), SVC())
         svm_.fit(X_res, y_res)
         y_pred = svm_.predict(X_test)
 
-        dump(svm_, 'svm_default.joblib')
+        dump(svm_, 'svm_c_final.joblib')
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
