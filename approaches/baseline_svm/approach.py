@@ -1,5 +1,5 @@
 import sys
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 
 from imblearn.over_sampling import SMOTE
 
@@ -70,11 +70,11 @@ def approach():
 
         # we resample with SMOTE and build a random forest for our baseline
         X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
-        rf = RandomForestClassifier(random_state=RANDOM_SEED, oob_score=True, n_estimators=50)
-        rf.fit(X_res, y_res)
-        y_pred = rf.predict(X_test)
+        svm_ = SVC()
+        svm_.fit(X_res, y_res)
+        y_pred = svm_.predict(X_test)
 
-        dump(rf, 'random_forest_n_estimators_50.joblib')
+        dump(svm_, 'svm_default.joblib')
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
