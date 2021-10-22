@@ -1,4 +1,8 @@
 import sys
+import numpy as np
+import pandas as pd
+import csv
+
 from sklearn.ensemble import RandomForestClassifier
 
 from imblearn.over_sampling import SMOTE
@@ -54,11 +58,15 @@ def approach():
 
         train_df = train_df.sample(frac=0.2)
 
-        n_rows = train_df.shape[0]
-        n_columns = train_df.shape[1]
+        with open('selected_features.csv', newline='') as csvfile:
+            spamreader = csv.reader(csvfile)
+            feature_names = next(spamreader)
 
-        X_train = train_df[ALL_FEATURES].values
-        X_test = test_df[ALL_FEATURES].values
+        train_df_new = pd.concat([train_df[feat] for feat in feature_names], axis=1)
+        test_df_new = pd.concat([test_df[feat] for feat in feature_names], axis=1)
+
+        X_train = train_df_new.values
+        X_test = test_df_new.values
 
         # binary labels are in the column 'is_inducing'
         y_train = train_df['is_inducing']
@@ -72,9 +80,13 @@ def approach():
         X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
         rf = RandomForestClassifier(random_state=RANDOM_SEED, oob_score=True, n_estimators=50)
         rf.fit(X_res, y_res)
+
+        importances = rf.feature_importances_
+        std = np.std([tree.feature_importances_ for tree in rf.estimators_], axis=0)
+
         y_pred = rf.predict(X_test)
 
-        dump(rf, 'random_forest_n_estimators_50.joblib')
+        dump(rf, '50_important_features.joblib')
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
