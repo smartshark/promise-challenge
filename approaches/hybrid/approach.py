@@ -1,32 +1,36 @@
 import sys
+import numpy as np
+import pandas as pd
+import csv
+
 from sklearn.ensemble import RandomForestClassifier
 
 from imblearn.over_sampling import SMOTE
+
+from joblib import dump
 
 from utils import *
 
 def approach():
     args = sys.argv
-    
+
     data_path = args[1]
     score_path = args[2]
     approach_name = args[3]
     drop_months_end = int(args[4])
     num_test_commits = int(args[5])
 
-    #################################################################################
-    # Loop for using all data                                                       #
-    # Load requires at least 17 GB memory                                           #
-    # Required about 75 GB virtual memory total on my machine for the random forest #
-    #################################################################################
-        
-    projects = load_all_projects(path=data_path)
+    ######################################
+    # Loop for within project prediction #
+    # Loads only one project at a time   #
+    ######################################
 
-    for project in projects:
-        print(project)
+    for project_name in list_all_projects(path=data_path):
+        print(project_name)
+        data = load_project(path=data_path, project_name=project_name)
 
-        train_df, test_df = prepare_all_data(project, projects, drop_months_end=drop_months_end, num_test_commits=num_test_commits)
-        
+        train_df, test_df = prepare_within_project_data(data, drop_months_end=drop_months_end, num_test_commits=num_test_commits)
+
         #########################################
         # Build Classifier                      #
         # (should be adopted for your approach) #
@@ -51,8 +55,18 @@ def approach():
         # https://github.com/smartshark/promise-challenge/blob/main/dataset.md
         # 
         # we use all available features for our baseline
-        X_train = train_df[ALL_FEATURES].values
-        X_test = test_df[ALL_FEATURES].values
+
+        train_df = train_df.sample(frac=0.2)
+
+        with open('200_selected_features.csv', newline='') as csvfile:
+            spamreader = csv.reader(csvfile)
+            feature_names = next(spamreader)
+
+        train_df_new = pd.concat([train_df[feat] for feat in feature_names], axis=1)
+        test_df_new = pd.concat([test_df[feat] for feat in feature_names], axis=1)
+
+        X_train = train_df_new.values
+        X_test = test_df_new.values
 
         # binary labels are in the column 'is_inducing'
         y_train = train_df['is_inducing']
@@ -62,10 +76,19 @@ def approach():
         RANDOM_SEED = 42
         np.random.seed(RANDOM_SEED)
 
-        # we train the RF without resampling with SMOTE due to memory constraints
-        rf = RandomForestClassifier()
-        rf.fit(X_train, y_train)
-        y_pred = rf.predict(X_test)
+        # we resample with SMOTE and build a random forest for our baseline
+        X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
+        # TODO: for
+        rf = RandomForestClassifier(random_state=RANDOM_SEED, oob_score=True, n_estimators=50)
+        rf.fit(X_res, y_res)
+
+        importances = rf.feature_importances_
+        std = np.std([tree.feature_importances_ for tree in rf.estimators_], axis=0)
+
+        y_pred = rf.predict_proba(X_test)
+        # TODO: end of loop
+
+        dump(rf, '200_important_features_rf.joblib')
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
@@ -74,7 +97,7 @@ def approach():
 
         scores = score_model(test_df, y_pred)
         print_summary(train_df, test_df, scores)
-        write_scores(score_path, approach_name, project, scores)
+        write_scores(score_path, approach_name, project_name, scores)
 
         
 if __name__ == '__main__':
