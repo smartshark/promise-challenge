@@ -2,8 +2,11 @@ import sys
 import numpy as np
 import pandas as pd
 import csv
+import xgboost as xgb
+
 
 from sklearn.ensemble import RandomForestClassifier
+
 
 from imblearn.over_sampling import SMOTE
 
@@ -56,7 +59,7 @@ def approach():
         # 
         # we use all available features for our baseline
 
-        train_df = train_df.sample(frac=0.2)
+        # train_df = train_df.sample(frac=0.2)
 
         with open('200_selected_features.csv', newline='') as csvfile:
             spamreader = csv.reader(csvfile)
@@ -79,16 +82,43 @@ def approach():
         # we resample with SMOTE and build a random forest for our baseline
         X_res, y_res = SMOTE(random_state=RANDOM_SEED).fit_resample(X_train, y_train)
         # TODO: for
-        rf = RandomForestClassifier(random_state=RANDOM_SEED, oob_score=True, n_estimators=50)
-        rf.fit(X_res, y_res)
+        preds_rf = []
+        preds_xgb = []
+        for r_seed in range(20):
+            rf = RandomForestClassifier(random_state=r_seed, oob_score=True, n_estimators=50, max_depth=25, max_features="log2", n_jobs=-1)
+            rf.fit(X_res, y_res)
 
-        importances = rf.feature_importances_
-        std = np.std([tree.feature_importances_ for tree in rf.estimators_], axis=0)
+            xgbst = xgb.XGBClassifier(n_jobs=-1, random_state=r_seed, max_depth=100, learning_rate=0.2)
+            xgbst.fit(X_res, y_res)
 
-        y_pred = rf.predict_proba(X_test)
+            preds_rf.append(rf.predict_proba(X_test))
+            preds_xgb.append(xgbst.predict_proba(X_test))
+
         # TODO: end of loop
+        sum_pred_rf = []
+        sum_pred_xgb = []
+        for i in range(len(preds_rf[0])):
+            temp_sum = 0
+            for j in range(20):
+                temp_sum += preds_rf[j][i][1]
+            sum_pred_rf.append(temp_sum / 20)
+    
+        for i in range(len(preds_xgb[0])):
+            temp_sum = 0
+            for j in range(20):
+                temp_sum += preds_xgb[j][i][1]
+            sum_pred_xgb.append(temp_sum / 20)
 
-        dump(rf, '200_important_features_rf.joblib')
+        y_pred_list = []
+        for i in range(len(sum_pred_xgb)):
+            if (sum_pred_xgb[i] + sum_pred_rf[i]) / 2 < 0.5:
+                y_pred_list.append(False)
+            else:
+                y_pred_list.append(True)
+
+        y_pred = np.array(y_pred_list)
+
+        # dump(rf, '200_important_features_rf.joblib')
 
         ######################################################
         # DO NOT TOUCH FROM HERE                             #
